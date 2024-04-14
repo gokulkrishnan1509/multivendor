@@ -9,10 +9,10 @@ const converSationSchema = new mongoose.Schema(
     members: {
       type: Array,
     },
-    lastMessages: {
+    lastMessage: {
       type: String,
     },
-    lastMessagesId: {
+    lastMessageId: {
       type: String,
     },
   },

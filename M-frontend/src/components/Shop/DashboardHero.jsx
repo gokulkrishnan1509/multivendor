@@ -15,6 +15,8 @@ const DashboardHero = function () {
   const { shopProduct } = useSelector((state) => state.product);
   const [deliverOrder, setDeliverOrder] = useState(null);
 
+  
+
   useEffect(() => {
     dispatch(getAllShopOrderFromServer());
     dispatch(getAllProductShop());
@@ -24,8 +26,8 @@ const DashboardHero = function () {
   }, [dispatch]);
 
   const totalEarningWithoutTax =
-    deliverOrder &&
-    deliverOrder.reduce((acc, item) => acc + item.totalPrice, 0);
+    deliverOrder ?
+    deliverOrder.reduce((acc, item) => acc + item.totalPrice, 0):0;
 
   const serviceCharge = totalEarningWithoutTax * 0.1;
   const availableBalance = totalEarningWithoutTax - serviceCharge;

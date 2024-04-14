@@ -167,11 +167,28 @@ let timeLeft = {};
 
 if (difference > 0) {
   timeLeft = {
-    days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-    hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-    minutes: Math.floor((difference / 1000 / 60) % 60),
-    seconds: Math.floor((difference / 1000) % 60),
+    // days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+    // hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+    // minutes: Math.floor((difference / 1000 / 60) % 60),
+    // seconds: Math.floor((difference / 1000) % 60),
   };
 }
 
-console.log(timeLeft);
+// console.log(timeLeft);
+
+let messages = {};
+
+function addMessage(receiverId, message) {
+  if (!messages[receiverId]) {
+    messages[receiverId] = [message];
+  } else {
+    messages[receiverId].push(message);
+  }
+}
+
+
+addMessage(1,"hello")
+addMessage(2,"Hi there!")
+addMessage(1,"How are you ?")
+addMessage(1,"ppp")
+addMessage(3,"pppppp")

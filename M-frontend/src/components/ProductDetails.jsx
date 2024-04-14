@@ -31,11 +31,11 @@ const ProductDetails = function ({ data }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const timeOut = setTimeout(() => {
+    // const timeOut = setTimeout(() => {
       dispatch(SellerProductRequest(data && data?.shopId));
       dispatch(GetLoginUser());
       dispatch(isAunthundicatedUser())
-    }, 3000);
+    // }, 3000);
 
     if (wishlist && wishlist.find((i) => i._id === data?._id)) {
       setClick(true);
@@ -43,9 +43,9 @@ const ProductDetails = function ({ data }) {
       setClick(false);
     }
 
-    return () => {
-      clearTimeout(timeOut);
-    };
+    // return () => {
+    //   clearTimeout(timeOut);
+    // };
   }, [data, wishlist]);
 
   const removeFromWishListHandler = (id) => {
@@ -114,15 +114,15 @@ const ProductDetails = function ({ data }) {
   async function handleMessageSubmit() {
     if(isAunthundicatedUser){
       const groupTitle = data._id + user._id;
-      const userId = user._id;
-      const sellerId = data.shopId;
+      const userId = user?._id;
+      const sellerId = data?.shopId;
+
   
       await axios.post(`${base_url}conversation/create-conversation`, {
         groupTitle,
         userId,
         sellerId,
       }).then((res)=>{
-        console.log(res.data)
         navigate(`/conversation/${res?.data?.conversation?._id}`)
       }).catch((error)=>{
         toast.error(error?.response?.data?.message)

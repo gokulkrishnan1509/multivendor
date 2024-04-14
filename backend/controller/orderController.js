@@ -64,6 +64,7 @@ class Order {
         "cart.shopId": id.toString(),
       }).sort({ createdAt: -1 });
 
+      console.log(orders)
       res.status(200).json({ success: true, orders });
     } catch (error) {
       return next(new CustomError(error.message, 500));

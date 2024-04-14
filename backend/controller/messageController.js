@@ -1,6 +1,6 @@
 const MessagesModel = require("../model/messagesModel");
 const CustomError = require("../utils/customError");
-const Conversation =require("../model/conversation")
+const Conversation = require("../model/conversation");
 class Message {
   createMessages = async function (req, res, next) {
     try {
@@ -11,12 +11,13 @@ class Message {
         messageData.images = imageUrls;
       }
 
-      messageData.ConversationId = req.body.ConversationId;
+      messageData.ConversationId = req.body.conversationId;
       messageData.sender = req.body.sender;
-
+      messageData.text = req.body.text;
       const message = new MessagesModel({
         conversationId: messageData.ConversationId,
         sender: messageData.sender,
+        text: messageData?.text,
         images: messageData.images ? messageData?.images : undefined,
       });
 
@@ -28,9 +29,17 @@ class Message {
     }
   };
 
-  
+  getAllMessageWithConversationId = async (req, res, next) => {
+    try {
+      const messages = await MessagesModel.find({
+        conversationId: req.params.id,
+      });
 
-  
+      res.status(200).json({ success: true, messages });
+    } catch (error) {
+      return next(new CustomError(error.message, 500));
+    }
+  };
 }
 
 module.exports = Message;

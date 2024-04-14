@@ -1,6 +1,3 @@
-const app = require("./app");
-const connectDatabase = require("./db/Database");
-
 
 // Handling uncaught Exception
 
@@ -8,6 +5,12 @@ process.on("uncaughtException",(err)=>{
     console.log(`ERROR:${err.message}`);
     console.log(`shutting down the server for handling uncaught exception`)
 })
+
+
+
+const app = require("./app");
+const connectDatabase = require("./db/Database");
+
 
 // config
 if(process.env.NODE_ENV !== "PRODUCTION"){

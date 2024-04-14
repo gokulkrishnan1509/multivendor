@@ -24,6 +24,7 @@ import {
   OrderSuccessPage,
   OrderDetailsPage,
   TrackOrderPage,
+  UserInbox
 } from "./Router";
 
 import {
@@ -38,7 +39,7 @@ import {
   ShopAllRefunds,
   ShopSettingsPage,
   ShopWithDrawMoneyPage,
-  ShopInboxPage
+  ShopInboxPage,
 } from "./shopRoutes/shopRoutes";
 import ProtectedRoute from "./Protect/ProdectedRoutes";
 import { ShopHomePage } from "./ShopRoutes.jsx";
@@ -126,6 +127,15 @@ function App() {
             />
 
             <Route
+              path="/inbox"
+              element={
+                <ProtectedRoute>
+                  <UserInbox />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
               path="/user/order/:id"
               element={
                 <ProtectedRoute>
@@ -193,7 +203,7 @@ function App() {
               path="/dashboard-withdraw-money"
               element={
                 <SellerProtected>
-                  <ShopWithDrawMoneyPage/>
+                  <ShopWithDrawMoneyPage />
                 </SellerProtected>
               }
             />
@@ -260,9 +270,14 @@ function App() {
               }
             />
 
-            <Route path="/dashboard-messages" element={<SellerProtected>
-              <ShopInboxPage/>
-            </SellerProtected>}/>
+            <Route
+              path="/dashboard-messages"
+              element={
+                <SellerProtected>
+                  <ShopInboxPage />
+                </SellerProtected>
+              }
+            />
           </Routes>
           <ToastContainer
             position="bottom-center"

@@ -6,11 +6,15 @@ module.exports = (app) => {
 
   const MessageController = require("../controller/messageController");
 
-  const { createMessages } = new MessageController();
+  const { createMessages, getAllMessageWithConversationId } =
+    new MessageController();
 
   router
     .route("/create-message")
     .post(uploadPhoto.array("images"), asyncErrorHandler(createMessages));
 
+  router
+    .route("/getAllMessage/:id")
+    .get(asyncErrorHandler(getAllMessageWithConversationId));
   app.use("/api/message", router);
 };
