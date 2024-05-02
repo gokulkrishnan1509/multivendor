@@ -28,7 +28,7 @@ export const getAllEventFromServer = () => async (dispatch) => {
       withCredentials: true,
     });
     dispatch({ type: "allEventGetSuccess", payload: data });
-    dispatch({type:"clearGetEventError"})
+    dispatch({ type: "clearGetEventError" });
   } catch (error) {
     dispatch({
       type: "allEventGetFail",
@@ -47,7 +47,7 @@ export const deleteEventFromServer = (id) => async (dispatch) => {
 
     dispatch({ type: "deleteEventSuccess", payload: data });
     // dispatch(getAllEventFromServer())
-    dispatch({type:"clearDeleteEvent"})
+    dispatch({ type: "clearDeleteEvent" });
   } catch (error) {
     dispatch({
       type: "deleteEventGetFail",
@@ -56,6 +56,18 @@ export const deleteEventFromServer = (id) => async (dispatch) => {
   }
 };
 
-
-
-
+export const getAllEventAdminFromServer = () => async (dispatch) => {
+  try {
+    dispatch({ type: "getAllEventAdminRequest" });
+    const { data } = await axios.get(`${base_url}event/get-all-event`, {
+      withCredentials: true,
+    });
+    dispatch({ type: "getAllEventAdminSuccess", payload: data?.allEvents });
+    dispatch({ type: "getAllEventAdminEvent" });
+  } catch (error) {
+    dispatch({
+      type: "getAllEventAdminGetFail",
+      payload: error.response.data.message,
+    });
+  }
+};

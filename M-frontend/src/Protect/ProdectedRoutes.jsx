@@ -5,7 +5,8 @@ import { isAunthundicatedUser } from "../features/user/userSlice";
 
 const ProtectedRoute = ({ children }) => {
   // const { isSuccess, isLoading, userAuthorized } = useSelector((state) => state.auth);
-  const { userAuthorized } = useSelector((state) => state.auth);
+  
+  const { userAuthorized ,user} = useSelector((state) => state.auth);
 const dispatch = useDispatch()
   useEffect(()=>{
     dispatch(isAunthundicatedUser())

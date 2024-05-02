@@ -15,6 +15,7 @@ const createActivationToken = (data) => {
 
 exports.createNewUser = asyncErrorHandler(async (req, res, next) => {
   try {
+    console.log(req.body);
     const { name, email, password } = req.body;
     const userEmail = await UserModel.findOne({ email });
     if (userEmail) {
@@ -28,7 +29,7 @@ exports.createNewUser = asyncErrorHandler(async (req, res, next) => {
     };
     const token = createActivationToken(user);
 
-    const activationUrl = `http://localhost:5173/activation/${token}`;
+    const activationUrl = `http://localhost:5174/activation/${token}`;
 
     try {
       await sendEmail({
@@ -174,7 +175,6 @@ exports.updateUserImage = asyncErrorHandler(async (req, res, next) => {
     } else {
       // const existAvatarPath = `../public/${existsUser.avatar}`;
       // fs.unlinkSync(existAvatarPath);
-
     }
     res.status(200).json({ success: true, user });
   } catch (error) {
@@ -205,7 +205,9 @@ exports.updateUSerAddress = asyncErrorHandler(async (req, res, next) => {
       );
     }
 
-    const existAddress = user.address.find((address) => address._id === req.body._id);
+    const existAddress = user.address.find(
+      (address) => address._id === req.body._id
+    );
 
     if (existAddress) {
       Object.assign(existAddress, req.body);
@@ -263,5 +265,14 @@ exports.updatePassword = asyncErrorHandler(async (req, res, next) => {
       .json({ success: true, message: "Password updated successfully" });
   } catch (error) {
     return next(new CustomError(error.message, 500));
+  }
+});
+
+exports.allUser = asyncErrorHandler(async (req, res, next) => {
+  try {
+    const allUser = await UserModel.find().sort({ createdAt: -1 });
+    res.status(200).json({ success: true, allUser });
+  } catch (error) {
+    return next(new CustomError("Something went wrong", 500));
   }
 });

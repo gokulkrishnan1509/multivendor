@@ -50,7 +50,7 @@ export const loginNewUser = createAsyncThunk(
 
 export const isAunthundicatedUser = createAsyncThunk(
   "auth/isAuth",
-  async (_,thunkAPI) => {
+  async (_, thunkAPI) => {
     try {
       const response = await userService.authandicateUser();
       return response;
@@ -124,6 +124,18 @@ export const updateUserPassword = createAsyncThunk(
   async (data, thunkAPI) => {
     try {
       const response = await userService.updatePassword(data);
+      return response;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const getAllUserfromServer = createAsyncThunk(
+  "/get-all-user",
+  async (_, thunkAPI) => {
+    try {
+      const response = await userService.getAllUser();
       return response;
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -302,6 +314,21 @@ export const authSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = false;
       })
+      .addCase(getAllUserfromServer.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getAllUserfromServer.fulfilled, (state, action) => {
+        state.isError = false;
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.getAllUser = action.payload;
+      })
+      .addCase(getAllUserfromServer.rejected, (state, action) => {
+        state.isError = true;
+        state.isLoading = false;
+        state.isSuccess = false;
+      })
+
       .addCase(resetState, () => initialState);
   },
 });

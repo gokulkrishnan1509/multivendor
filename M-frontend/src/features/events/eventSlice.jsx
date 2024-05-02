@@ -24,7 +24,7 @@ const eventReducter = createReducer(initialState, (builder) => {
     })
     .addCase("clearCreateEventSuccess", (state) => {
       state.error = null;
-      state.success=false
+      state.success = false;
     })
 
     .addCase("allEventGetRequest", (state) => {
@@ -42,7 +42,7 @@ const eventReducter = createReducer(initialState, (builder) => {
     })
     .addCase("clearGetEventError", (state, action) => {
       state.error = null;
-      state.success=false
+      state.success = false;
     })
     .addCase("deleteEventRequest", (state) => {
       state.isLoading = true;
@@ -58,6 +58,22 @@ const eventReducter = createReducer(initialState, (builder) => {
       state.success = false;
     })
     .addCase("clearDeleteEvent", (state) => {
+      state.error = null;
+    })
+    .addCase("getAllEventAdminRequest", (state) => {
+      state.isLoading = true;
+    })
+    .addCase("getAllEventAdminSuccess", (state, action) => {
+      state.isLoading = false;
+      state.getAllEvent = action.payload;
+      state.success = true;
+    })
+    .addCase("getAllEventAdminGetFail", (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload;
+      state.success = false;
+    })
+    .addCase("getAllEventAdminEvent", (state) => {
       state.error = null;
     });
 });

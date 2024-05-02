@@ -176,7 +176,7 @@ class Shop {
     }
   };
 
-  filterReqObj =  (obj, ...allowedFields) =>{
+  filterReqObj = (obj, ...allowedFields) => {
     const newObj = {};
 
     Object.keys(obj).forEach((prop) => {
@@ -186,9 +186,8 @@ class Shop {
     return newObj;
   };
 
-  updateShop = async  (req, res, next) =>{
+  updateShop = async (req, res, next) => {
     const { _id } = req.seller;
-
 
     const filterObj = this.filterReqObj(
       req.body,
@@ -200,7 +199,6 @@ class Shop {
     );
 
     try {
-      
       await ShopModel.findByIdAndUpdate(_id, filterObj, {
         runValidators: true,
         new: true,
@@ -211,6 +209,45 @@ class Shop {
       return next(new CustomError(error.message, 500));
     }
   };
+
+  async getAllShop(req, res) {
+    try {
+      const getShop = await ShopModel.find().sort("-createdAt").select("-__v");
+      res.status(200).json({ getShop });
+    } catch (error) {
+      next(new CustomError(error.message, 500));
+    }
+  }
+
+  async updatePaymentMethod(req, res, next) {
+    try {
+      const { withdrawMethod } = req.body;
+
+      const seller = await ShopModel.findByIdAndUpdate(
+        req.seller._id,
+        { withdrawMethod },
+        { new: true }
+      );
+
+      res.status(200).json({ success: true, seller });
+    } catch (error) {
+      next(new CustomError(error.message, 500));
+    }
+  }
+
+  async deleteWithDraw(req, res, next) {
+    try {
+      const seller = await ShopModel.findByIdAndUpdate(
+        req.seller._id,
+        { withdrawMethod: null },
+        { new: true }
+      );
+
+      res.status(200).json({ success: true, seller });
+    } catch (error) {
+      next(new CustomError(error.message, 500));
+    }
+  }
 }
 
 module.exports = Shop;

@@ -1,4 +1,4 @@
-const { isAuthenticated, isSeller } = require("../utils/auth");
+const { isAuthenticated, isSeller, isAdmin } = require("../utils/auth");
 
 module.exports = (app) => {
   const asyncErrorHandler = require("../middleware/asyncErrorHandler");
@@ -11,6 +11,7 @@ module.exports = (app) => {
     updateOrderStatus,
     giveRefund,
     acceptTheRefund,
+    adminOrders
   } = new OrderController();
   const router = require("express").Router();
   router
@@ -31,6 +32,8 @@ module.exports = (app) => {
   router
     .route("/order-refund-success/:id")
     .patch(isSeller, asyncErrorHandler(acceptTheRefund));
+
+  router.route("/admin-orders").get(isAuthenticated,isAdmin("Admin"),asyncErrorHandler(adminOrders))
 
   app.use("/api/order", router);
 };

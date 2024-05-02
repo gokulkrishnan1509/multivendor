@@ -2,6 +2,7 @@ const OrderSchema = require("../model/orderModel");
 const CustomError = require("../utils/customError");
 
 const Product = require("../model/productModel");
+const Shop = require("../model/shopModel");
 
 class Order {
   createOrder = async function (req, res) {
@@ -64,7 +65,6 @@ class Order {
         "cart.shopId": id.toString(),
       }).sort({ createdAt: -1 });
 
-      console.log(orders)
       res.status(200).json({ success: true, orders });
     } catch (error) {
       return next(new CustomError(error.message, 500));
@@ -90,18 +90,34 @@ class Order {
         if (order.status === "Delivered") {
           order.deliveredAt = Date.now();
           order.paymentInfo.status = "Succeeded";
+          const serviceCharge = order.totalPrice *.10
+          updateSellerInfo( order.totalPrice -serviceCharge)
           await order.save({ validateBeforeSave: false });
         }
 
         res.status(200).json({ success: true, order });
+      }
 
-        async function updateOrder(id, qty) {
-          const product = await Product.findById(id);
 
-          product.stock -= qty;
-          product.sold_out += qty;
-          await product.save({ validateBeforeSave: false });
-        }
+
+      async function updateOrder(id, qty) {
+        const product = await Product.findById(id);
+
+        product.stock -= qty;
+        product.sold_out += qty;
+        await product.save({ validateBeforeSave: false });
+      }
+
+
+      async function updateSellerInfo(amount){
+
+        // instead of this we would have to change function to another level
+        // it will not sum up instead it w
+        const seller = await Shop.findById(req.seller._id)
+
+        seller.availableBalance = amount
+
+        await seller.save()
       }
 
       res.status(200).json();
@@ -152,6 +168,21 @@ class Order {
         product.sold_out -= qty;
         await product.save({ validateBeforeSave: false });
       }
+    } catch (error) {
+      return next(new CustomError(error.message, 500));
+    }
+  };
+
+  //all orders ---for admin
+
+  adminOrders = async function (req, res, next) {
+    try {
+      const orders = await OrderSchema.find().sort({
+        deliveredAt: -1,
+        createdAt: -1,
+      });
+
+      res.status(200).json({ success: true, orders });
     } catch (error) {
       return next(new CustomError(error.message, 500));
     }

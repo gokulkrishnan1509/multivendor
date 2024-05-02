@@ -1,12 +1,12 @@
 const ConversationModel = require("../model/conversation");
 const CustomError = require("../utils/customError");
 const UserModel = require("../model/userModel");
+const ShopModel = require("../model/shopModel");
 
 class Conversation {
   createConversation = async (req, res, next) => {
     try {
       const { groupTitle, userId, sellerId } = req.body;
-      console.log(groupTitle);
 
       const isConversationExist = await ConversationModel.findOne({
         groupTitle: groupTitle,
@@ -42,6 +42,19 @@ class Conversation {
     }
   };
 
+  getUserConversations = async (req, res, next) => {
+    const user = req.user._id;
+    try {
+      const conversation = await ConversationModel.find({
+        members: { $in: [user.toString()] },
+      }).sort({ updatedAt: -1, createdAt: -1 });
+
+      res.status(200).json({ success: true, conversation });
+    } catch (error) {
+      return next(new CustomError(error.message, 500));
+    }
+  };
+
   updateMessage = async (req, res, next) => {
     try {
       const { lastMessage, lastMessageId } = req.body;
@@ -64,9 +77,16 @@ class Conversation {
     try {
       const user = await UserModel.findById(req.params.id);
 
-
-             
       res.status(201).json({ success: true, user });
+    } catch (error) {
+      return next(new CustomError(error.message, 500));
+    }
+  };
+
+  conversationShopDetails = async (req, res, next) => {
+    try {
+      const user = await ShopModel.findById(req.params.id);
+      res.status(200).json({ success: true, user });
     } catch (error) {
       return next(new CustomError(error.message, 500));
     }

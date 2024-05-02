@@ -40,6 +40,29 @@ const shopSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    withdrawMethod: {
+      type: Object,
+    },
+    availableBalance:{type:Number,default:0},
+    transections: [
+      {
+        amount: {
+          type: Number,
+          required: true,
+        },
+        status: {
+          type: String,
+          default: "Processing",
+        },
+        createdAt: {
+          type: Date,
+          default: Date.now(),
+        },
+        updatedAt: {
+          type: Date,
+        },
+      },
+    ],
   },
   {
     timestamps: true,
@@ -54,7 +77,6 @@ shopSchema.pre("save", async function (next) {
   this.password = await bcrypt.hash(this.password, 14);
   next();
 });
-
 
 shopSchema.methods.comparePassword = async function (psw, pswDB) {
   return await bcrypt.compare(psw, pswDB);

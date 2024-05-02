@@ -1,6 +1,5 @@
 const MessagesModel = require("../model/messagesModel");
 const CustomError = require("../utils/customError");
-const Conversation = require("../model/conversation");
 class Message {
   createMessages = async function (req, res, next) {
     try {

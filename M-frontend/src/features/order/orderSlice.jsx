@@ -39,6 +39,19 @@ const orderReducer = createReducer(initialState, (builder) => {
     .addCase("clearGetUsetOrder", (state, action) => {
       state.error = null;
       state.success = false;
+    })
+    .addCase("adminOrdersGetRequest", (state) => {
+      state.isLoading = true;
+    })
+    .addCase("adminOrderGetSuccess", (state, action) => {
+      state.isLoading = false;
+      state.adminOrder = action.payload;
+      state.success = true;
+    })
+    .addCase("adminOrderGetFail", (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload;
+      state.success = false;
     });
 });
 

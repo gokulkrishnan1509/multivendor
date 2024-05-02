@@ -66,6 +66,7 @@ const Checkout = function () {
     }
   };
 
+  
   const subTotalPrice = cart.reduce(
     (acc, item) => acc + item?.qty * item?.discountPrice,
     0

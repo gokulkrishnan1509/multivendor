@@ -93,6 +93,13 @@ const updatePassword = async function(data){
     return response.data
   }
 }
+
+const getAllUser = async function(){
+  const response =await axios.get(`${base_url}user/get-all-user`,{withCredentials:true})
+  if(response.data){
+    return response.data?.allUser
+  }
+}
 const userService = {
   register,
   activationToken,
@@ -103,7 +110,8 @@ const userService = {
   getUser,
   updateUSerAddressRequest,
   userDeleteAddressRequest,
-  updatePassword
+  updatePassword,
+  getAllUser
 };
 
 export default userService;

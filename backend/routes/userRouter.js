@@ -1,6 +1,6 @@
 module.exports = (app) => {
   const router = require("express").Router();
-  const { isAuthenticated } = require("../utils/auth");
+  const { isAuthenticated, isAdmin } = require("../utils/auth");
 
   const {
     createNewUser,
@@ -13,6 +13,7 @@ module.exports = (app) => {
     updateUSerAddress,
     deleteUSer,
     updatePassword,
+    allUser,
   } = require("../controller/userController");
   const { uploadPhoto, userImgResize } = require("../utils/multer");
   // router.route("/user-upload").put(uploadPhoto.array("images", 1));
@@ -29,6 +30,7 @@ module.exports = (app) => {
   router.route("/update-address").patch(isAuthenticated, updateUSerAddress);
   router.route("/delete-user/:id").delete(isAuthenticated, deleteUSer);
   router.route("/update-password").patch(isAuthenticated, updatePassword);
+  router.route("/get-all-user").get(isAuthenticated, isAdmin("Admin"), allUser);
 
   app.use("/api/user", router);
 };

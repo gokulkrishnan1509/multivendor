@@ -34,3 +34,19 @@ export const getAllShopOrderFromServer = () => async (dispatch) => {
     });
   }
 };
+
+export const getAllAdminProduct = () => async (dispatch) => {
+  try {
+    dispatch({ type: "adminOrdersGetRequest" });
+    const { data } = await axios.get(`${base_url}order/admin-orders`, {
+      withCredentials: true,
+    });
+    
+    dispatch({ type: "adminOrderGetSuccess", payload: data.orders });
+  } catch (error) {
+    dispatch({
+      type: "adminOrderGetFail",
+      payload: error.response.data.message,
+    });
+  }
+};

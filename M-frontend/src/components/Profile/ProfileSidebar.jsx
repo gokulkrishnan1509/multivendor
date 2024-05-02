@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   AiOutlineCreditCard,
   AiOutlineLogin,
@@ -11,14 +11,27 @@ import { RxPerson } from "react-icons/rx";
 import { TbAddressBook } from "react-icons/tb";
 import { useDispatch, useSelector } from "react-redux";
 
-import { useNavigate } from "react-router-dom";
-import { MdOutlineTrackChanges } from "react-icons/md";
-import { LogoutUser } from "../../features/user/userSlice";
+import { Link, useNavigate } from "react-router-dom";
+import {
+  MdOutlineAdminPanelSettings,
+  MdOutlineTrackChanges,
+} from "react-icons/md";
+import { GetLoginUser, LogoutUser } from "../../features/user/userSlice";
 
 const ProfileSideBar = function ({ active, setActive }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth);
 
+  useEffect(() => {
+    const timeOut = setTimeout(() => {
+      dispatch(GetLoginUser());
+    }, 500);
+
+    return () => {
+      clearTimeout(timeOut);
+    };
+  }, [dispatch]);
   const logOutHandler = function () {
     dispatch(LogoutUser());
     window.location.reload();
@@ -127,6 +140,28 @@ const ProfileSideBar = function ({ active, setActive }) {
           </span>
         </div>
 
+        {user && user.role === "Admin" && (
+          <Link to="/admin/dashboard">
+            <div
+              className="flex items-center cursor-pointer w-full mb-8 "
+              onClick={() => setActive(8)}
+            >
+              <MdOutlineAdminPanelSettings
+                size={20}
+                color={active === 7 ? "red" : ""}
+              />
+
+              <span
+                className={`pl-3 ${
+                  active === 8 ? "text-[red]" : ""
+                } 800px:block hidden`}
+              >
+              Admin Dashboard
+              </span>
+              
+            </div>
+          </Link>
+        )}
         <div
           className="flex items-center w-full mb-8 cursor-pointer"
           onClick={() => setActive(8) || logOutHandler()}

@@ -8,8 +8,8 @@ const SellerProtected = ({ children }) => {
   if (isLoading === false) {
     <Loader/>
     if (!isSuccess) {
-      // return <Navigate to="/" replace={true}
-      //  />;
+      return <Navigate to="/" replace={true}
+/>;
     }
   }
   return children;

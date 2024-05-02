@@ -15,7 +15,6 @@ const DashboardHero = function () {
   const { shopProduct } = useSelector((state) => state.product);
   const [deliverOrder, setDeliverOrder] = useState(null);
 
-  
 
   useEffect(() => {
     dispatch(getAllShopOrderFromServer());
@@ -72,7 +71,7 @@ const DashboardHero = function () {
       renderCell: (params) => {
         return (
           <>
-            <Link to={`/dashboard/order/${params.id}`}>
+            <Link to={`/order/${params.id}`}>
               <Button>
                 <AiOutlineArrowRight size={20} />
               </Button>

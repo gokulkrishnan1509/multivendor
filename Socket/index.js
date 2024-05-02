@@ -51,8 +51,6 @@ io.on("connection", (socket) => {
   socket.on("sendMessage", ({ senderId, receiverId, text, images }) => {
     const message = createMessage({ senderId, receiverId, text, images });
     const user = getUser(receiverId);
-    console.log(message,"message")
-    console.log(user,"user")
 
     if (!messages[receiverId]) {
       messages[receiverId] = [message];

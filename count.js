@@ -161,34 +161,73 @@
 
 // console.log(1&2)
 
-const difference = +new Date("2024-04-30") - +new Date();
+// const difference = +new Date("2024-04-30") - +new Date();
 
-let timeLeft = {};
+// let timeLeft = {};
 
-if (difference > 0) {
-  timeLeft = {
+// if (difference > 0) {
+//   timeLeft = {
     // days: Math.floor(difference / (1000 * 60 * 60 * 24)),
     // hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
     // minutes: Math.floor((difference / 1000 / 60) % 60),
     // seconds: Math.floor((difference / 1000) % 60),
-  };
-}
+  // };
+// }
 
 // console.log(timeLeft);
 
-let messages = {};
+// let messages = {};
 
-function addMessage(receiverId, message) {
-  if (!messages[receiverId]) {
-    messages[receiverId] = [message];
-  } else {
-    messages[receiverId].push(message);
-  }
-}
+// function addMessage(receiverId, message) {
+//   if (!messages[receiverId]) {
+//     messages[receiverId] = [message];
+//   } else {
+//     messages[receiverId].push(message);
+//   }
+// }
 
 
-addMessage(1,"hello")
-addMessage(2,"Hi there!")
-addMessage(1,"How are you ?")
-addMessage(1,"ppp")
-addMessage(3,"pppppp")
+// addMessage(1,"hello")
+// addMessage(2,"Hi there!")
+// addMessage(1,"How are you ?")
+// addMessage(1,"ppp")
+// addMessage(3,"pppppp")
+
+
+
+// let messages ={};
+
+
+
+// function addMessage(receiverId,message){
+
+
+//   console.log(messages[receiverId])
+
+//   if(!messages[receiverId]){
+//     messages[receiverId] = [message]
+// // console.log(messages[receiverId])
+//   }else{
+//     messages[receiverId].push(message)
+//   }
+
+
+
+// }
+
+// addMessage(1,"gggggg")
+// addMessage(2,"gokul")
+// addMessage(1,"krishnan")
+// addMessage(2,"pola")
+
+// console.log(messages)
+
+
+
+
+const bankNumber = "*".repeat("123456789123456789".length-3) +"123456789123456789".slice(-3)
+
+
+const oo=[]
+
+console.log(bankNumber)

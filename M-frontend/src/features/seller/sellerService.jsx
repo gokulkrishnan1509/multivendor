@@ -39,11 +39,19 @@ let loadSeller = async function () {
     return response.data;
   }
 };
+
+let getAllShop = async function(){
+  const response = await axios.get(`${base_url}shop/get-all-shop`,{withCredentials:true})
+  if(response.data){
+    return response.data.getShop
+  }
+}
 const sellerService = {
   sellerActivation,
   sellerRegistration,
   loadSeller,
-  sellerLogin
+  sellerLogin,
+  getAllShop
 };
 
 export default sellerService;

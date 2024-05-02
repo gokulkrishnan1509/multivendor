@@ -294,7 +294,7 @@ const SellerInbox = ({
                   />
                 )}
                 <div>
-                  <div className="w-max p-2 rounded bg-[#38c776] text-[#fff]">
+                  <div className={`w-max p-2 rounded ${item.sender !==sellerId ? "bg-[#b6b3ae]":"bg-[#38c776]"} text-[#fff]`}>
                     <p>{item?.text}</p>
                   </div>
 

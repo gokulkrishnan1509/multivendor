@@ -13,10 +13,9 @@ function CountDown() {
   }, []);
 
   function calculateTimeLeft() {
-    const difference = +new Date("2024-04-30") -+new Date();
+    const difference = +new Date("2024-04-30") - +new Date();
 
     let timeLeft = {};
-  
 
     if (difference > 0) {
       timeLeft = {
@@ -35,19 +34,15 @@ function CountDown() {
       return null;
     }
 
-
     return (
       <span className="text-[25px] text-[#475ad2]">
         {timeLeft[interval]} {interval}
-
-
       </span>
     );
   });
 
   return (
     <div>
-      
       {timeComponents.length ? (
         timeComponents
       ) : (

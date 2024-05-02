@@ -9,7 +9,6 @@ class EventController {
 
       const shop = await Shop.findById(_id);
 
-
       if (!shop) {
         return next(new CustomError("Shop Id is invalid", 400));
       } else {
@@ -42,8 +41,6 @@ class EventController {
       const { id } = req.params;
       const deletedEvent = await Event.findByIdAndDelete(id);
 
-
-
       if (!deletedEvent) {
         return next(new CustomError("Product not found with this id ", 404));
       }
@@ -51,11 +48,19 @@ class EventController {
       // const filename = req.file.filename;
       // const filePath = `uploads/${filename}`
 
-      
-
       res.status(200).json({ deletedEvent, success: true });
     } catch (error) {
       return next(new CustomError(error.message, 400));
+    }
+  };
+
+  getAllEvent = async function (req, res, next) {
+    try {
+      const allEvents = await Event.find().sort("-createdAt").select("-__v");
+
+      res.status(200).json({ success: true, allEvents });
+    } catch (error) {
+      return next(new CustomError("Something went wrong", 500));
     }
   };
 }

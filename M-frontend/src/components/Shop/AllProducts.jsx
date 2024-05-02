@@ -11,7 +11,6 @@ import { RxCross1 } from "react-icons/rx";
 function AllProducts() {
   const [open, setOpen] = useState(false);
   const { shopProduct } = useSelector((state) => state.product);
-  console.log(shopProduct)
   const dispatch = useDispatch();
 
   useEffect(() => {
