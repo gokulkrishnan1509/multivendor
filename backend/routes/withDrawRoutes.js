@@ -1,12 +1,14 @@
-module.exports =()=>{
-    const router = require("express").Router();
-    const {isSeller} = require("../utils/auth")
+module.exports = (app) => {
+  const router = require("express").Router();
+  const { isSeller, isAuthenticated, isAdmin } = require("../utils/auth");
 
-    const WithdrawController = require("../controller/withdrawController")
-    const {createWithDraw} = new WithdrawController()
+  const WithdrawController = require("../controller/withdrawController");
+  const { createWithDraw, getAllWithdraw } = new WithdrawController();
 
-    router.route("/create-withdraw").post(isSeller,createWithDraw)
+  router.route("/create-withdraw").post(isSeller, createWithDraw);
+  router
+    .route("/get-all-withdraw-request")
+    .get(isAuthenticated, isAdmin("Admin"), getAllWithdraw);
 
-    app.use("/api/withdraw",router)
-
-}
+  app.use("/api/withdraw", router);
+};

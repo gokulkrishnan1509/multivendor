@@ -6,7 +6,6 @@ import styles from "../../styles/styles";
 import axios from "axios";
 import { base_url } from "../../utilies/base_url";
 
-
 const AllWithdrawAdmin = function () {
   const [data, setData] = useState([]);
   const [open, setOpen] = useState(false);
@@ -14,11 +13,14 @@ const AllWithdrawAdmin = function () {
   const [withdrawStatus, setWithdrawStatus] = useState("Processing");
 
   useEffect(() => {
-    axios.get(`${base_url}withdraw/get-all-withdraw-request`,{withCredentials:true}).then((data)=>{
-       setData(res.data) 
-    }).catch((error)=>{
-        
-    })
+    axios
+      .get(`${base_url}withdraw/get-all-withdraw-request`, {
+        withCredentials: true,
+      })
+      .then((data) => {
+        setData(data.data.getAllRequest);
+      })
+      .catch((error) => {});
   }, []);
 
   const columns = [
@@ -60,64 +62,65 @@ const AllWithdrawAdmin = function () {
     },
   ];
 
-  const row =[];
+  const row = [];
 
+  data &&
+    data.forEach((item) => {
+      row.push({
+        id: item._id,
+        shopId: item.seller._id,
+        name: item.seller.name,
+        amount: "US$" + item.amount,
+        status: item.status,
+        createdAt: item.createdAt.slice(0, 10),
+      });
+    });
 
-  data  && data.forEach((item)=>{
-    row.push({
-        id:item._id,
-        shopId:item.seller._id,
-        name:item.seller.name,
-        amount:"US$"+item.amount,
-        status:item.status,
-        createdAt:item.createdAt.slice(0,10)
-    })
-  })
-
-  const handleSubmit =()=>{
-
-  }
+  const handleSubmit = () => {};
 
   return (
     <>
       <div className="w-full flex items-center pt-5 justify-center">
         <div className="w-[95%] bg-white">
-            <DataGrid rows={row} columns={columns} pageSize={10} disableSelectionOnClick autoHeight/>
-
-
-
+          <DataGrid
+            rows={row}
+            columns={columns}
+            pageSize={10}
+            disableSelectionOnClick
+            autoHeight
+          />
         </div>
 
-            
-        {open && (<div className="w-full fixed h-screen top-0 left-0 bg-[#00000031] z-[9999] flex items-center justify-center"> 
-        
-        <div className="w-[50%] min-h-[40vh] bg-white rounded shadow p-4">
-            <div className="flex justify-end w-full">
-                <RxCross1 size={25} onClick={()=>setOpen(false)}/>
+        {open && (
+          <div className="w-full fixed h-screen top-0 left-0 bg-[#00000031] z-[9999] flex items-center justify-center">
+            <div className="w-[50%] min-h-[40vh] bg-white rounded shadow p-4">
+              <div className="flex justify-end w-full">
+                <RxCross1 size={25} onClick={() => setOpen(false)} />
+              </div>
 
-            </div>
-
-            <h1 className="text-[25px] text-center font-Poppins">
+              <h1 className="text-[25px] text-center font-Poppins">
                 Update Withdraw status
+              </h1>
+              <br />
 
-            </h1>
-            <br />
-
-            <select name="" id="" onChange={(e)=>setWithdrawStatus(e.target.value)} className="w-[200px] h-[35px] border rounded">
+              <select
+                name=""
+                id=""
+                onChange={(e) => setWithdrawStatus(e.target.value)}
+                className="w-[200px] h-[35px] border rounded"
+              >
                 <option value={withdrawStatus}>{withdrawData?.status}</option>
                 <option value={withdrawData}>Succeed</option>
+              </select>
 
-
-            </select>
-
-            <button type="submit" className={`block ${styles.button} text-white !h-[42px] mt-4 text-[18px]`} onClick={handleSubmit}></button>
-
-
-        </div>
-
-        </div>)}    
-
-
+              <button
+                type="submit"
+                className={`block ${styles.button} text-white !h-[42px] mt-4 text-[18px]`}
+                onClick={handleSubmit}
+              ></button>
+            </div>
+          </div>
+        )}
       </div>
     </>
   );

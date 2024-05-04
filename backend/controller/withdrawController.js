@@ -41,6 +41,19 @@ class WithdrawController {
       return next(new CustomError(error.message, 500));
     }
   }
+
+
+async getAllWithdraw(req,res,next){
+  try{
+    const getAllRequest = await Withdraw.find().sort("-createdAt").select("-__v")
+
+    res.status(200).json({getAllRequest,success:true})
+
+  }catch(error){
+    return next(new CustomError(error.message,500))
+  }
+}
+
 }
 
 module.exports = WithdrawController;

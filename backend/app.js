@@ -41,6 +41,7 @@ require("./routes/couponRoutes")(app)
 require("./routes/orderRoutes")(app)
 require("./routes/conversationRoutes")(app)
 require("./routes/messagesRoutes")(app)
+require("./routes/withDrawRoutes")(app)
 // It's for ErrorHandling
 app.use(globalErroHandler);
 module.exports = app;
