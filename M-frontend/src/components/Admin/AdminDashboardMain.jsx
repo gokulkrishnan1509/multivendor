@@ -22,6 +22,10 @@ const AdminDashboardMain = () => {
     };
   }, [dispatch]);
 
+
+  // console.log(adminOrder)
+
+  // console.log(adminOrder.reduce((acc,item)=>acc +item.totalPrice,0))
   const adminEarning =
     adminOrder &&
     adminOrder.reduce((acc, item) => acc + item.totalPrice * 0.1, 0);

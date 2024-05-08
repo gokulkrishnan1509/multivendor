@@ -13,23 +13,30 @@ const DashboardHero = function () {
   const dispatch = useDispatch();
   const { orderShop } = useSelector((state) => state.order);
   const { shopProduct } = useSelector((state) => state.product);
-  const [deliverOrder, setDeliverOrder] = useState(null);
+  const{shopAuthendicate} = useSelector((state)=>state.shop)
+  // const [deliverOrder, setDeliverOrder] = useState(null);
 
 
   useEffect(() => {
     dispatch(getAllShopOrderFromServer());
     dispatch(getAllProductShop());
-    const order =
-      orderShop && orderShop.filter((item) => item.status === "Delivered");
-    setDeliverOrder(order);
+    // const order =
+    //   orderShop && orderShop.filter((item) => item.status === "Delivered");
+    // setDeliverOrder(order);
   }, [dispatch]);
 
-  const totalEarningWithoutTax =
-    deliverOrder ?
-    deliverOrder.reduce((acc, item) => acc + item.totalPrice, 0):0;
+  // const totalEarningWithoutTax =
+  //   deliverOrder ?
+  //   deliverOrder.reduce((acc, item) => acc + item.totalPrice, 0):0;
 
-  const serviceCharge = totalEarningWithoutTax * 0.1;
-  const availableBalance = totalEarningWithoutTax - serviceCharge;
+  // const serviceCharge = totalEarningWithoutTax * 0.1;
+  // const availableBalance = totalEarningWithoutTax - serviceCharge;
+
+  const availableBalance = shopAuthendicate?.availableBalance?.toFixed(2)
+
+  // console.log(orderShop)
+
+
 
   const columns = [
     { field: "id", headerName: "Order ID", minWidth: 150, flex: 0.7 },
@@ -113,7 +120,7 @@ const DashboardHero = function () {
               </h3>
             </div>
             <h5 className="pt-2 pl-[36px] text-[22px] font-[500]">
-              ${availableBalance.toFixed(2)}
+              ${availableBalance}
             </h5>
             <Link to="/dashboard-withdraw-money">
               <h5 className="pt-4 pl-2 text-[#077f9c]">Withdraw Money</h5>

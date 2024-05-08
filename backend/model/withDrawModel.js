@@ -11,10 +11,6 @@ const withdrawSchema = new mongoose.Schema(
       required: true,
     },
     status: { type: String, default: "Processing" },
-    // createdAt:{
-    //     type:Date,
-    //     default:Date.now()
-    // }
   },
   { timestamps: true }
 );

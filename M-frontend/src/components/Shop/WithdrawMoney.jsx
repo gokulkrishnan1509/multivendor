@@ -113,7 +113,7 @@ function WithdrawMoney() {
         </h5>
         <div
           className="w-[150px] bg-black h-[42px] my-3 flex items-center justify-center rounded cursor-pointer text-white"
-          onClick={() => (availableBalance < 50 ? error() : setOpen(true))}
+          onClick={() => (availableBalance ? error() : setOpen(true))}
         >
           Withdraw
         </div>

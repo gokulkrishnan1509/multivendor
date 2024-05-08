@@ -31,6 +31,7 @@ const DashboardMessages = () => {
           withCredentials: true,
         })
         .then((res) => {
+          console.log(res.data)
           setConversations(res.data.conversations);
         })
         .catch((res) => {});

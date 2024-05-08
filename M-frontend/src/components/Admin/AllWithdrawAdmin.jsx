@@ -5,6 +5,7 @@ import { RxCross1 } from "react-icons/rx";
 import styles from "../../styles/styles";
 import axios from "axios";
 import { base_url } from "../../utilies/base_url";
+import { toast } from "react-toastify";
 
 const AllWithdrawAdmin = function () {
   const [data, setData] = useState([]);
@@ -18,7 +19,7 @@ const AllWithdrawAdmin = function () {
         withCredentials: true,
       })
       .then((data) => {
-        setData(data.data.getAllRequest);
+        setData(data?.data?.allWithdraw);
       })
       .catch((error) => {});
   }, []);
@@ -35,6 +36,7 @@ const AllWithdrawAdmin = function () {
       minWidth: 80,
       flex: 0.5,
     },
+
     {
       field: "createdAt",
       headerName: "Request given at",
@@ -68,7 +70,7 @@ const AllWithdrawAdmin = function () {
     data.forEach((item) => {
       row.push({
         id: item._id,
-        shopId: item.seller._id,
+        shopId: item?.seller?._id,
         name: item.seller.name,
         amount: "US$" + item.amount,
         status: item.status,
@@ -76,7 +78,22 @@ const AllWithdrawAdmin = function () {
       });
     });
 
-  const handleSubmit = () => {};
+  const handleSubmit = async () => {
+    await axios
+      .patch(
+        `${base_url}withdraw/update-withdraw-request/${withdrawData.id}`,
+        { sellerId: withdrawData?.shopId },
+        { withCredentials: true }
+      )
+      .then((res) => {
+        toast.success(`Withdraw request updated successfully`);
+
+        setData(res.data.withdraw);
+
+        setOpen(false);
+      })
+      .catch((error) => {});
+  };
 
   return (
     <>
@@ -110,14 +127,16 @@ const AllWithdrawAdmin = function () {
                 className="w-[200px] h-[35px] border rounded"
               >
                 <option value={withdrawStatus}>{withdrawData?.status}</option>
-                <option value={withdrawData}>Succeed</option>
+                <option value={withdrawStatus}>Succeed</option>
               </select>
 
               <button
                 type="submit"
                 className={`block ${styles.button} text-white !h-[42px] mt-4 text-[18px]`}
                 onClick={handleSubmit}
-              ></button>
+              >
+                Update
+              </button>
             </div>
           </div>
         )}
