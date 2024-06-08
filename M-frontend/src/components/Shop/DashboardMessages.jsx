@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { base_url } from "../../utilies/base_url";
+import { base_url, image_url } from "../../utilies/base_url";
 import { useNavigate } from "react-router-dom";
 import { AiOutlineArrowRight, AiOutlineSend } from "react-icons/ai";
 import styles from "../../styles/styles";
@@ -22,6 +22,7 @@ const DashboardMessages = () => {
   const [userData, setUserData] = useState(null);
   const [onlineUser, setOnlineUsers] = useState([]);
   const [activeStatus, setActiveStatus] = useState(false);
+  const [images, setImages] = useState();
   const { shopAuthendicate } = useSelector((state) => state?.shop);
   const dispatch = useDispatch();
   useEffect(() => {
@@ -31,7 +32,6 @@ const DashboardMessages = () => {
           withCredentials: true,
         })
         .then((res) => {
-          console.log(res.data)
           setConversations(res.data.conversations);
         })
         .catch((res) => {});
@@ -132,6 +132,55 @@ const DashboardMessages = () => {
     return online ? true : false;
   };
 
+  const handleImageUpload = async (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImages(file);
+      await imageSendingHandler(file);
+    }
+  };
+
+  const imageSendingHandler = async (e) => {
+    const formData = new FormData();
+
+    formData.append("images", e);
+    formData.append("sender", shopAuthendicate?._id);
+    formData.append("text", newMessage);
+    formData.append("conversationId", currentChat._id);
+
+    const receiverId = currentChat.members.find(
+      (member) => member !== shopAuthendicate?._id
+    );
+
+    socketId.emit("sendMessage", {
+      senderId: shopAuthendicate?._id,
+      receiverId,
+      images: e,
+    });
+
+    try {
+      await axios
+        .post(`${base_url}message/create-message`, formData)
+        .then((res) => {
+          setImages();
+          setMessages([...messages, res.data.message]);
+          updateLastMessageForImage();
+        });
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+
+  const updateLastMessageForImage = async () => {
+    await axios.patch(
+      `${base_url}conversation/update-last-message/${currentChat?._id}`,
+      { lastMessage: "Photo", lastMessageId: shopAuthendicate?._id }
+    );
+  };
+
+  // useEffect(()=>{
+
+  // },[])
   return (
     <>
       <div className="w-[90%] bg-white m-5 h-[85vh]  overflow-y-scroll   rounded">
@@ -170,6 +219,7 @@ const DashboardMessages = () => {
             userData={userData}
             activeStatus={activeStatus}
             // online={onlineUser}
+            handleImageUpload={handleImageUpload}
           />
         )}
       </div>
@@ -189,6 +239,7 @@ const MessageList = ({
   setActiveStatus,
 }) => {
   const navigate = useNavigate();
+
   const handleClick = (id) => {
     navigate(`/dashboard-messages?${id}`);
     setOpen(true);
@@ -256,6 +307,7 @@ const SellerInbox = ({
   data,
   userData,
   activeStatus,
+  handleImageUpload,
 }) => {
   return (
     <>
@@ -286,6 +338,7 @@ const SellerInbox = ({
                 className={`flex w-full my-2 ${
                   item.sender === sellerId ? "justify-end" : "justify-start"
                 }`}
+                key={index}
               >
                 {item.sender !== sellerId && (
                   <img
@@ -294,8 +347,20 @@ const SellerInbox = ({
                     alt="data"
                   />
                 )}
+
+                {item?.images && (
+                  <img
+                    src={`${image_url}${item?.images}`}
+                    className="w-[300px] h-[300px] object-cover rounded-[10px]"
+                  ></img>
+                )}
+
                 <div>
-                  <div className={`w-max p-2 rounded ${item.sender !==sellerId ? "bg-[#b6b3ae]":"bg-[#38c776]"} text-[#fff]`}>
+                  <div
+                    className={`w-max p-2 rounded ${
+                      item.sender !== sellerId ? "bg-[#b6b3ae]" : "bg-[#38c776]"
+                    } text-[#fff]`}
+                  >
                     <p>{item?.text}</p>
                   </div>
 
@@ -312,11 +377,20 @@ const SellerInbox = ({
           className="p-3 relative w-full flex justify-between items-center"
           onSubmit={sendMessageHandler}
         >
-          <div className="w-[3%]">
-            <TfiGallery className="cursor-pointer" />
+          <div className="w-[30px]">
+            <input
+              type="file"
+              name="image"
+              id="image"
+              className="hidden"
+              onChange={handleImageUpload}
+            />
+            <label htmlFor="image">
+              <TfiGallery className="cursor-pointer" size={20} />
+            </label>
           </div>
 
-          <div className="w-[97%]">
+          <div className="w-full">
             <input
               type="text"
               required

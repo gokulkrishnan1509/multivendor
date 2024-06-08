@@ -66,40 +66,43 @@ function ShopSettings() {
   const updateHandler = async (e) => {
     e.preventDefault();
 
-    await axios.patch(
-      `${base_url}shop/update-shop`,
-      {
-        name,
-        address,
-        zipCode,
-        phoneNumber,
-        description,
-      },
-      { withCredentials: true }
-    ).then((res)=>{
-        toast.success("profile updated successfully")
-    }).catch((error)=>{
-        toast.error(error.response.data.message)
-    })
+    await axios
+      .patch(
+        `${base_url}shop/update-shop`,
+        {
+          name,
+          address,
+          zipCode,
+          phoneNumber,
+          description,
+        },
+        { withCredentials: true }
+      )
+      .then((res) => {
+        toast.success("profile updated successfully");
+      })
+      .catch((error) => {
+        toast.error(error.response.data.message);
+      });
   };
 
-
- 
   return (
     <>
       <div className="w-full min-h-screen flex flex-col items-center">
         <div className="flex w-full 800px:w-[80%] flex-col justify-center my-5">
           <div className="w-full flex items-center justify-center">
             <div className="relative">
-              <img
-                src={
-                  avatar
-                    ? URL.createObjectURL(avatar)
-                    : `${image_url}${shopAuthendicate?.avatar}`
-                }
-                alt=""
-                className="w-[200px] h-[200px] rounded-full cursor-pointer"
-              />
+              <div className="w-[150px] h-[150px] border-2 border-[#3ad132] flex items-center justify-center overflow-hidden rounded-full ">
+                <img
+                  src={
+                    avatar
+                      ? URL.createObjectURL(avatar)
+                      : `${image_url}${shopAuthendicate?.avatar}`
+                  }
+                  alt=""
+                  className=" w-full h-full object-cover cursor-pointer"
+                />
+              </div>
 
               <div className="w-[30px] h-[30px] bg-[#E3E9EE] rounded-full flex items-center justify-center cursor-pointer absolute bottom-[10px] right-[15px] ">
                 <input

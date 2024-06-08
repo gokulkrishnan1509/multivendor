@@ -132,7 +132,7 @@ const AllWithdrawAdmin = function () {
 
               <button
                 type="submit"
-                className={`block ${styles.button} text-white !h-[42px] mt-4 text-[18px]`}
+                className={`block ${styles.button} rounded-[20px] text-white !h-[42px] mt-4 text-[18px]`}
                 onClick={handleSubmit}
               >
                 Update

@@ -91,7 +91,7 @@ class Order {
           order.deliveredAt = Date.now();
           order.paymentInfo.status = "Succeeded";
           const serviceCharge = order.totalPrice *.10
-          updateSellerInfo( order.totalPrice -serviceCharge)
+          updateSellerInfo( order.totalPrice-serviceCharge)
           await order.save({ validateBeforeSave: false });
         }
 
@@ -111,8 +111,6 @@ class Order {
 
       async function updateSellerInfo(amount){
 
-        // instead of this we would have to change function to another level
-        // it will not sum up instead it w
         const seller = await Shop.findById(req.seller._id)
 
         seller.availableBalance = amount

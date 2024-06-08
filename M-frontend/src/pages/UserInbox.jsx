@@ -80,7 +80,6 @@ const UserInbox = () => {
 
   const sendMessageHandler = async (e) => {
     e.preventDefault();
-    console.log(newMessage)
 
     const message = {
       sender: user._id,
@@ -102,7 +101,6 @@ const UserInbox = () => {
         await axios
           .post(`${base_url}message/create-message`, message)
           .then((res) => {
-            console.log(res)
             updateLastMessage();
             setMessages([...messages, res.data.message]);
           })
@@ -184,6 +182,7 @@ const MessageList = ({
   online,
   setActiveStatus,
 }) => {
+
   const [active, setActive] = useState(0);
   const [user, setUser] = useState([]);
   const navigate = useNavigate();
@@ -237,7 +236,7 @@ const MessageList = ({
           <p className="text-[16px] text-[#000c]">
             {data?.lastMessageId !== userData?._id
               ? "you:"
-              : userData?.name.splite(" ")[0] + ":"}
+              : userData?.name.split(" ")[0] + ":"}
             {data?.lastMessage}
           </p>
         </div>

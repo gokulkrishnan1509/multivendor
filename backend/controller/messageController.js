@@ -1,13 +1,13 @@
 const MessagesModel = require("../model/messagesModel");
 const CustomError = require("../utils/customError");
+const path = require("path");
 class Message {
   createMessages = async function (req, res, next) {
     try {
       const messageData = req.body;
-      if (req.files) {
-        const files = req.files;
-        const imageUrls = files.map((file) => `${file?.filename}`);
-        messageData.images = imageUrls;
+      if (req.file) {
+        const filename = req.file.filename;
+        messageData.images = path.join(filename);
       }
 
       messageData.ConversationId = req.body.conversationId;
@@ -17,7 +17,7 @@ class Message {
         conversationId: messageData.ConversationId,
         sender: messageData.sender,
         text: messageData?.text,
-        images: messageData.images ? messageData?.images : undefined,
+        images: messageData.images ? messageData.images : undefined,
       });
 
       await message.save();

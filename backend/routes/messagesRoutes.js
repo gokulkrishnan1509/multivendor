@@ -11,7 +11,7 @@ module.exports = (app) => {
 
   router
     .route("/create-message")
-    .post(uploadPhoto.array("images"), asyncErrorHandler(createMessages));
+    .post(uploadPhoto.single("images"), asyncErrorHandler(createMessages));
 
   router
     .route("/getAllMessage/:id")

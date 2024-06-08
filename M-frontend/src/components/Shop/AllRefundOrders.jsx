@@ -15,7 +15,7 @@ const AllRefundOrders = () => {
 
   useEffect(() => {
     dispatch(getAllShopOrderFromServer());
-  }, []);
+  }, [dispatch]);
 
   const refundOrders =
     orderShop &&

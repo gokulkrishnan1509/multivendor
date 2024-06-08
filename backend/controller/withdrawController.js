@@ -1,6 +1,5 @@
 const Shop = require("../model/shopModel");
 const CustomError = require("../utils/customError");
-const express = require("express");
 const Withdraw = require("../model/withDrawModel");
 const sendMail = require("../utils/sendMail");
 
@@ -18,7 +17,7 @@ class WithdrawController {
         await sendMail({
           email: req.seller.email,
           subject: "withdraw Request",
-          message: `Hello ${req.seller.name}, your withdraw request on ${amount}$ is processing. it will take 3days to 7days to processing! `,
+          message: `Hello ${req.seller.name}, your withdraw request on ${amount} is processing. it will take 3days to 7days to processing! `,
         });
 
         res

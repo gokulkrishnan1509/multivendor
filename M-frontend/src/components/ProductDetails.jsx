@@ -112,7 +112,7 @@ const ProductDetails = function ({ data }) {
 
   const averageRating = totalRatings / totalReviewsLength || 0;
   async function handleMessageSubmit() {
-    if(isAunthundicatedUser){
+    if(userAuthorized){
       const groupTitle = data._id + user._id;
       const userId = user?._id;
       const sellerId = data?.shopId;

@@ -184,6 +184,8 @@ const ProfileContent = ({ active }) => {
 function AllOrders() {
   const dispatch = useDispatch();
   const { userOrders } = useSelector((state) => state.order);
+
+  console.log(userOrders);
   useEffect(() => {
     dispatch(getAllOrdersFromServer());
   }, [dispatch]);
@@ -294,7 +296,7 @@ function AllRefundOrders() {
       minWidth: 130,
       flex: 0.7,
       cellClassName: (params) => {
-        return params.getValue(params.id,"status") === "Delivered"
+        return params.getValue(params.id, "status") === "Delivered"
           ? "greenColor"
           : "redColor";
       },
@@ -324,9 +326,9 @@ function AllRefundOrders() {
         return (
           <>
             <Link to={`/user/order/${params.id}`}>
-            <Button>
-              <AiOutlineArrowRight size={20} />
-            </Button>
+              <Button>
+                <AiOutlineArrowRight size={20} />
+              </Button>
             </Link>
           </>
         );
@@ -337,7 +339,7 @@ function AllRefundOrders() {
   const row = [];
 
   eligibleOrder &&
-  eligibleOrder.forEach((item) => {
+    eligibleOrder.forEach((item) => {
       row.push({
         id: item._id,
         itemsQty: item.cart.length,
@@ -345,8 +347,6 @@ function AllRefundOrders() {
         status: item.status,
       });
     });
-
-
 
   return (
     <>
@@ -365,12 +365,11 @@ function AllRefundOrders() {
 }
 
 function TrackOrder() {
-
   const dispatch = useDispatch();
   const { userOrders } = useSelector((state) => state.order);
   useEffect(() => {
     dispatch(getAllOrdersFromServer());
-  }, [])
+  }, []);
 
   const orders = [
     {
@@ -423,9 +422,9 @@ function TrackOrder() {
         return (
           <>
             <Link to={`/user/track/order/${params.id}`}>
-            <Button>
-              <MdTrackChanges size={20} />
-            </Button>
+              <Button>
+                <MdTrackChanges size={20} />
+              </Button>
             </Link>
           </>
         );
@@ -435,9 +434,8 @@ function TrackOrder() {
 
   const row = [];
 
-
   userOrders &&
-  userOrders.forEach((item) => {
+    userOrders.forEach((item) => {
       row.push({
         id: item._id,
         itemsQty: item?.cart.length,

@@ -72,7 +72,6 @@ const addToCartHandler =(id)=>{
             className="w-full h-[170px] object-contain"
           />
         </Link>
-
         <Link to={`/product/${data._id}`}>
           <h5 className="pt-3 text-[15px] text-blue-400 pb-3">{data?.name}</h5>
         </Link>

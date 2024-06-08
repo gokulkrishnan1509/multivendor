@@ -37,9 +37,12 @@ const Checkout = function () {
       address1 === "" ||
       address2 === "" ||
       zipCode === null ||
-      country === "" ||
-      city === ""
+      country === "" 
+      // city === ""
+
+
     ) {
+
       toast.error("Please choose your delivery address");
     } else {
       const shippingAddress = {

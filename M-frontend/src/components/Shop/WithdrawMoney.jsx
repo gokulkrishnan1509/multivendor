@@ -113,11 +113,12 @@ function WithdrawMoney() {
         </h5>
         <div
           className="w-[150px] bg-black h-[42px] my-3 flex items-center justify-center rounded cursor-pointer text-white"
-          onClick={() => (availableBalance ? error() : setOpen(true))}
+          onClick={() => (availableBalance <50? error() : setOpen(true))}
         >
           Withdraw
         </div>
       </div>
+
 
       {open && (
         <div className="w-full h-screen z-[9999] fixed top-0 left-0 flex items-center justify-center bg-[#0000004e]">
@@ -287,13 +288,13 @@ function WithdrawMoney() {
                         <div className="800px:w-[50%]">
                           <h5>
                             Account Number: $
-                            {"*".repeat(
+                            {/* {"*".repeat(
                               shopAuthendicate?.withdrawMethod
                                 ?.bankAccountNumber.length - 4
                             ) +
                               shopAuthendicate?.withdrawMethod?.bankAccountNumber.slice(
                                 -4
-                              )}
+                              )} */}
                           </h5>
                           <h5>
                             Bank Name:{" "}

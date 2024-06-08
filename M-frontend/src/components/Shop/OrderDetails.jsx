@@ -16,7 +16,6 @@ const OrderDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  console.log(status)
   const orderUpdateHandler = async (e) => {
     await axios
       .patch(
